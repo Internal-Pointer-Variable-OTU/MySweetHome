@@ -24,7 +24,6 @@ set(SOURCES
     src/DeviceFactory.cpp
     src/ModeManager.cpp
     src/StateManager.cpp
-    src/SecuritySystem.cpp
     src/NotificationSystem.cpp
     src/HomeController.cpp
 )
