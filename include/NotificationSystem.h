@@ -4,11 +4,18 @@
 #include "Device.h" // For IDeviceObserver
 #include <string>
 
+// Forward declaration
+class NotificationStrategy;
+
 class NotificationSystem : public IDeviceObserver {
+private:
+    NotificationStrategy* strategy;
+
 public:
     NotificationSystem();
     virtual ~NotificationSystem();
     
+    void setStrategy(NotificationStrategy* newStrategy);
     void notify(const std::string& message);
     
     // Observer update method
