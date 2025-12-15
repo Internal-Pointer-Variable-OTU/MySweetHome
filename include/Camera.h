@@ -1,45 +1,49 @@
-/**
- * @file Camera.h
- * @brief Concrete Camera device implementation
- * @version 3.0
- * @date 03/12/2025
- *
- * @authors
- * - 220201047: Security System - Camera motion detection logic
- *
- * @patterns Factory Method (Product)
- */
-
 #ifndef CAMERA_H
 #define CAMERA_H
 
 #include "Device.h"
+#include <string>
 
+// Forward declaration
+class SecuritySystem;
+
+// Base Camera class
 class Camera : public Device
 {
 protected:
-    int resolution; // 720, 1080, 2160 (4K)
-    bool isRecording;
+    int resolution; // e.g., 1080, 4K = 2160
+    int fps;        // frames per second
+    bool nightVision;
+    bool motionDetected;
+    SecuritySystem *securitySystem;
 
 public:
     Camera(const std::string &brand, const std::string &model);
     virtual ~Camera();
 
-    virtual std::string getDeviceType() const;
-    virtual std::string getStatus() const;
-
-    // Override template methods
     virtual void doPowerOn();
     virtual void doPowerOff();
-
+    virtual std::string getDeviceType() const;
+    virtual std::string getStatus() const;
     virtual Device *clone() const = 0;
+    virtual void copyConfigurationFrom(const Device *other);
 
-    void detectMotion(); // Used to trigger security, now independent
+    // Camera-specific methods
     void setResolution(int res);
+    void setFPS(int frames);
+    void setNightVision(bool enabled);
     int getResolution() const;
+    int getFPS() const;
+    bool hasNightVision() const;
+
+    // Motion detection
+    void setSecuritySystem(SecuritySystem *system);
+    void detectMotion();
+    bool isMotionDetected() const;
+    void resetMotion();
 };
 
-// Concrete Camera - Samsung
+// Concrete Camera classes - Samsung
 class SamsungCamera : public Camera
 {
 public:
@@ -48,7 +52,7 @@ public:
     virtual Device *clone() const;
 };
 
-// Concrete Camera - Xiaomi
+// Concrete Camera classes - Xiaomi
 class XiaomiCamera : public Camera
 {
 public:
