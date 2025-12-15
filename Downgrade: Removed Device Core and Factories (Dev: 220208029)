@@ -1,0 +1,343 @@
+include/Device.h
+#ifndef DEVICE_H
+#define DEVICE_H
+
+#include <string>
+#include <iostream>
+
+// Base Device class - Template Method Pattern
+class Device {
+protected:
+    std::string name;
+    std::string brand;
+    std::string model;
+    bool powerState;      // true = on, false = off
+    bool operationMode;   // true = active, false = inactive (failed)
+
+public:
+    Device(const std::string& brand, const std::string& model);
+    virtual ~Device();
+
+    // Template Method Pattern
+    void powerOn();
+    void powerOff();
+    
+    // Primitive operations to be overridden
+    virtual void doPowerOn() = 0;
+    virtual void doPowerOff() = 0;
+    
+    // Common operations
+    virtual std::string getStatus() const;
+    virtual std::string getDeviceType() const = 0;
+    
+    // Getters and Setters
+    std::string getName() const;
+    std::string getBrand() const;
+    std::string getModel() const;
+    bool isPoweredOn() const;
+    bool isActive() const;
+    
+    void setOperationMode(bool active);
+    
+    // Prototype Pattern - Clone method
+    virtual Device* clone() const = 0;
+    
+    // For copying configuration
+    virtual void copyConfigurationFrom(const Device* other);
+};
+
+#endif // DEVICE_H
+
+include/DeviceFactory.h
+
+#ifndef DEVICEFACTORY_H
+#define DEVICEFACTORY_H
+
+#include "Device.h"
+#include "Light.h"
+#include "Camera.h"
+#include "Television.h"
+#include "SmokeDetector.h"
+#include "GasDetector.h"
+#include "SoundSystem.h"
+#include <string>
+
+// Abstract Factory Pattern for creating device families
+class DeviceFactory {
+public:
+    virtual ~DeviceFactory() {}
+    virtual Light* createLight() = 0;
+    virtual Camera* createCamera() = 0;
+    virtual Television* createTV() = 0;
+    virtual SoundSystem* createSoundSystem() = 0;
+};
+
+// Concrete Factory - Samsung Family
+class SamsungFactory : public DeviceFactory {
+public:
+    virtual Light* createLight();
+    virtual Camera* createCamera();
+    virtual Television* createTV();
+    virtual SoundSystem* createSoundSystem();
+};
+
+// Concrete Factory - Premium Brand Mix (Philips, Xiaomi, LG, Sonos)
+class PremiumFactory : public DeviceFactory {
+public:
+    virtual Light* createLight();
+    virtual Camera* createCamera();
+    virtual Television* createTV();
+    virtual SoundSystem* createSoundSystem();
+};
+
+// Abstract Factory for Detector System (Smoke + Gas sold together)
+class DetectorFactory {
+public:
+    virtual ~DetectorFactory() {}
+    virtual SmokeDetector* createSmokeDetector() = 0;
+    virtual GasDetector* createGasDetector() = 0;
+};
+
+// Concrete Detector Factory - Nest Family
+class NestDetectorFactory : public DetectorFactory {
+public:
+    virtual SmokeDetector* createSmokeDetector();
+    virtual GasDetector* createGasDetector();
+};
+
+// Concrete Detector Factory - Budget Family
+class BudgetDetectorFactory : public DetectorFactory {
+public:
+    virtual SmokeDetector* createSmokeDetector();
+    virtual GasDetector* createGasDetector();
+};
+
+// Factory Method Pattern - Simple device creation
+class SimpleDeviceFactory {
+public:
+    enum DeviceType {
+        LIGHT_PHILIPS,
+        LIGHT_IKEA,
+        CAMERA_SAMSUNG,
+        CAMERA_XIAOMI,
+        TV_SAMSUNG,
+        TV_LG,
+        SOUND_SONOS,
+        SOUND_BOSE,
+        SMOKE_NEST,
+        SMOKE_FIRSTALERT,
+        GAS_NEST,
+        GAS_KIDDE
+    };
+    
+    static Device* createDevice(DeviceType type);
+    static Device* createDeviceByInput(char deviceChar, int brandChoice);
+};
+
+#endif // DEVICEFACTORY_H
+
+src/Device.cpp
+
+
+
+#include "Device.h"
+
+Device::Device(const std::string& brand, const std::string& model)
+    : brand(brand), model(model), powerState(false), operationMode(true) {
+    name = brand + " " + model;
+}
+
+Device::~Device() {}
+
+void Device::powerOn() {
+    if (!operationMode) {
+        std::cout << "[WARNING] " << name << " is inactive/failed and cannot be powered on." << std::endl;
+        return;
+    }
+    if (!powerState) {
+        powerState = true;
+        doPowerOn();
+        std::cout << "[INFO] " << name << " powered ON." << std::endl;
+    } else {
+        std::cout << "[INFO] " << name << " is already ON." << std::endl;
+    }
+}
+
+void Device::powerOff() {
+    if (powerState) {
+        powerState = false;
+        doPowerOff();
+        std::cout << "[INFO] " << name << " powered OFF." << std::endl;
+    } else {
+        std::cout << "[INFO] " << name << " is already OFF." << std::endl;
+    }
+}
+
+std::string Device::getStatus() const {
+    std::string status = name + " [" + getDeviceType() + "] - ";
+    status += powerState ? "ON" : "OFF";
+    status += operationMode ? " (Active)" : " (FAILED)";
+    return status;
+}
+
+std::string Device::getName() const {
+    return name;
+}
+
+std::string Device::getBrand() const {
+    return brand;
+}
+
+std::string Device::getModel() const {
+    return model;
+}
+
+bool Device::isPoweredOn() const {
+    return powerState;
+}
+
+bool Device::isActive() const {
+    return operationMode;
+}
+
+void Device::setOperationMode(bool active) {
+    operationMode = active;
+    if (!active) {
+        std::cout << "[WARNING] " << name << " has been marked as FAILED/INACTIVE." << std::endl;
+        // Failure notification removed in V2.0
+    }
+}
+
+void Device::copyConfigurationFrom(const Device* other) {
+    if (other) {
+        // Base configuration copy - derived classes override for specific config
+        this->operationMode = other->operationMode;
+    }
+}
+
+
+src/DeviceFactory.cpp
+
+
+
+#include "DeviceFactory.h"
+
+// Samsung Factory Implementation
+Light* SamsungFactory::createLight() {
+    // Samsung doesn't make consumer lights, use Philips instead
+    return new PhilipsHueLight();
+}
+
+Camera* SamsungFactory::createCamera() {
+    return new SamsungCamera();
+}
+
+Television* SamsungFactory::createTV() {
+    return new SamsungTV();
+}
+
+SoundSystem* SamsungFactory::createSoundSystem() {
+    // Samsung sound bars - use Bose as equivalent
+    return new BoseSoundSystem();
+}
+
+// Premium Factory Implementation
+Light* PremiumFactory::createLight() {
+    return new PhilipsHueLight();
+}
+
+Camera* PremiumFactory::createCamera() {
+    return new XiaomiCamera();
+}
+
+Television* PremiumFactory::createTV() {
+    return new LGTV();
+}
+
+SoundSystem* PremiumFactory::createSoundSystem() {
+    return new SonosSoundSystem();
+}
+
+// Nest Detector Factory Implementation
+SmokeDetector* NestDetectorFactory::createSmokeDetector() {
+    return new NestSmokeDetector();
+}
+
+GasDetector* NestDetectorFactory::createGasDetector() {
+    return new NestGasDetector();
+}
+
+// Budget Detector Factory Implementation
+SmokeDetector* BudgetDetectorFactory::createSmokeDetector() {
+    return new FirstAlertSmokeDetector();
+}
+
+GasDetector* BudgetDetectorFactory::createGasDetector() {
+    return new KiddeGasDetector();
+}
+
+// Simple Device Factory Implementation
+Device* SimpleDeviceFactory::createDevice(DeviceType type) {
+    switch (type) {
+        case LIGHT_PHILIPS:
+            return new PhilipsHueLight();
+        case LIGHT_IKEA:
+            return new IKEATradfriLight();
+        case CAMERA_SAMSUNG:
+            return new SamsungCamera();
+        case CAMERA_XIAOMI:
+            return new XiaomiCamera();
+        case TV_SAMSUNG:
+            return new SamsungTV();
+        case TV_LG:
+            return new LGTV();
+        case SOUND_SONOS:
+            return new SonosSoundSystem();
+        case SOUND_BOSE:
+            return new BoseSoundSystem();
+        case SMOKE_NEST:
+            return new NestSmokeDetector();
+        case SMOKE_FIRSTALERT:
+            return new FirstAlertSmokeDetector();
+        case GAS_NEST:
+            return new NestGasDetector();
+        case GAS_KIDDE:
+            return new KiddeGasDetector();
+        default:
+            return NULL;
+    }
+}
+
+Device* SimpleDeviceFactory::createDeviceByInput(char deviceChar, int brandChoice) {
+    switch (deviceChar) {
+        case 'L':
+        case 'l':
+            return (brandChoice == 1) ? 
+                static_cast<Device*>(new PhilipsHueLight()) : 
+                static_cast<Device*>(new IKEATradfriLight());
+        case 'C':
+        case 'c':
+            return (brandChoice == 1) ? 
+                static_cast<Device*>(new SamsungCamera()) : 
+                static_cast<Device*>(new XiaomiCamera());
+        case 'T':
+        case 't':
+            return (brandChoice == 1) ? 
+                static_cast<Device*>(new SamsungTV()) : 
+                static_cast<Device*>(new LGTV());
+        case 'S':
+        case 's':
+            return (brandChoice == 1) ? 
+                static_cast<Device*>(new SonosSoundSystem()) : 
+                static_cast<Device*>(new BoseSoundSystem());
+        case 'D':
+        case 'd':
+            // Detectors come as a pair - this returns smoke detector
+            // Gas detector should be added separately
+            return (brandChoice == 1) ? 
+                static_cast<Device*>(new NestSmokeDetector()) : 
+                static_cast<Device*>(new FirstAlertSmokeDetector());
+        default:
+            return NULL;
+    }
+}
