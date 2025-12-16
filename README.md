@@ -32,6 +32,7 @@ MySweetHome/
 ├── CMakeLists.txt
 ├── include/
 │   ├── Alarm.h
+│   ├── AlarmHandler.h
 │   ├── Camera.h
 │   ├── DetectionSystem.h
 │   ├── Detector.h
@@ -40,53 +41,81 @@ MySweetHome/
 │   ├── GasDetector.h
 │   ├── HomeController.h
 │   ├── Light.h
+│   ├── LightHandler.h
 │   ├── Menu.h
 │   ├── ModeManager.h
 │   ├── NotificationSystem.h
+│   ├── PoliceHandler.h
+│   ├── SecurityHandler.h
 │   ├── SecuritySystem.h
 │   ├── SmokeDetector.h
 │   ├── SoundSystem.h
 │   ├── StateManager.h
 │   ├── Storage.h
-│   └── Television.h
-└── src/
-    ├── main.cpp
-    ├── Alarm.cpp
-    ├── Camera.cpp
-    ├── DetectionSystem.cpp
-    ├── Detector.cpp
-    ├── Device.cpp
-    ├── DeviceFactory.cpp
-    ├── GasDetector.cpp
-    ├── HomeController.cpp
-    ├── Light.cpp
-    ├── Menu.cpp
-    ├── ModeManager.cpp
-    ├── NotificationSystem.cpp
-    ├── SecuritySystem.cpp
-    ├── SmokeDetector.cpp
-    ├── SoundSystem.cpp
-    ├── StateManager.cpp
-    ├── Storage.cpp
-    └── Television.cpp
+│   ├── Television.h
+│   └── nlohmann/
+│       └── json.hpp
+├── src/
+│   ├── Alarm.cpp
+│   ├── AlarmHandler.cpp
+│   ├── Camera.cpp
+│   ├── Detector.cpp
+│   ├── Device.cpp
+│   ├── DeviceFactory.cpp
+│   ├── GasDetector.cpp
+│   ├── HomeController.cpp
+│   ├── Light.cpp
+│   ├── LightHandler.cpp
+│   ├── main.cpp
+│   ├── Menu.cpp
+│   ├── ModeManager.cpp
+│   ├── NotificationSystem.cpp
+│   ├── PoliceHandler.cpp
+│   ├── SecurityHandler.cpp
+│   ├── SecuritySystem.cpp
+│   ├── SmokeDetector.cpp
+│   ├── SoundSystem.cpp
+│   ├── StateManager.cpp
+│   ├── Storage.cpp
+│   └── Television.cpp
+└── tests/
+    ├── CMakeLists.txt
+    └── test_main.cpp
 ```
 
 ---
 
-## Compilation
+## Compilation and Testing
 
-### Using CMake:
+### Prerequisites
+- CMake 3.10 or higher
+- C++ Compiler supporting C++98 (e.g., g++, clang)
+
+### Build Instructions
 ```bash
+# Create build directory
 mkdir build && cd build
+
+# Configure project
 cmake ..
+
+# Build application and tests
 make
+```
+
+### Running the Application
+```bash
 ./bin/msh
 ```
 
-### Using g++ directly:
+### Running Tests
+This project uses CTest for unit testing.
 ```bash
-g++ -std=c++98 -I include -o msh src/*.cpp
-./msh
+# Run all tests
+ctest --output-on-failure
+
+# Alternatively, run the test executable directly
+./tests/unit_tests
 ```
 
 ---
