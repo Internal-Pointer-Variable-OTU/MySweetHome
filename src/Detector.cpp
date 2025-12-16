@@ -1,20 +1,8 @@
-/**
- * @file Detector.cpp
- * @brief Implementation of Detector base class
- * @version 5.0
- * @date 03/12/2025
- * 
- * @authors
- * - 220208041: Detectors & Alarm - Logic for devices that cannot be powered off
- * 
- * @patterns Template Method (override)
- */
-
 #include "Detector.h"
 #include <sstream>
 
 Detector::Detector(const std::string& brand, const std::string& model)
-    : Device(brand, model), detected(false), sensitivityLevel(5) {
+    : Device(brand, model), detected(false), sensitivityLevel(5), detectionSystem(NULL) {
     // Detectors start powered on by default - critical devices
     powerState = true;
 }
@@ -70,6 +58,6 @@ void Detector::resetDetection() {
     std::cout << "[INFO] " << name << " detection reset." << std::endl;
 }
 
-void Detector::reset() {
-    resetDetection();
+void Detector::setDetectionSystem(DetectionSystem* system) {
+    detectionSystem = system;
 }

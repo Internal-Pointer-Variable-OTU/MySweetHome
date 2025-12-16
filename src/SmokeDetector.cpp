@@ -1,16 +1,5 @@
-/**
- * @file SmokeDetector.cpp
- * @brief Implementation of Smoke Detector
- * @version 5.0
- * @date 03/12/2025
- * 
- * @authors
- * - 220208041: Detectors & Alarm - Smoke Detector implementation
- * 
- * @patterns Factory Method (Product)
- */
-
 #include "SmokeDetector.h"
+#include "DetectionSystem.h"
 #include <sstream>
 
 SmokeDetector::SmokeDetector(const std::string& brand, const std::string& model)
@@ -35,11 +24,11 @@ void SmokeDetector::detect() {
     if (smokeLevel > (10 - sensitivityLevel) * 10) {  // Higher sensitivity = lower threshold
         detected = true;
         std::cout << "[ALERT] " << name << " detected SMOKE! Level: " << smokeLevel << "%" << std::endl;
+        
+        if (detectionSystem) {
+            // Will trigger detection sequence - handled by DetectionSystem
+        }
     }
-}
-
-void SmokeDetector::trigger() {
-    detect();
 }
 
 int SmokeDetector::getSmokeLevel() const {

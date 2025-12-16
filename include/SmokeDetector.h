@@ -1,15 +1,3 @@
-/**
- * @file SmokeDetector.h
- * @brief Concrete Smoke Detector implementation
- * @version 5.0
- * @date 03/12/2025
- * 
- * @authors
- * - 220208041: Detectors & Alarm - Smoke Detector implementation
- * 
- * @patterns Factory Method (Product)
- */
-
 #ifndef SMOKEDETECTOR_H
 #define SMOKEDETECTOR_H
 
@@ -28,7 +16,6 @@ public:
     virtual std::string getStatus() const;
     virtual Device* clone() const = 0;
     virtual void detect();
-    virtual void trigger(); // Override pure virtual
     
     int getSmokeLevel() const;
     void setSmokeLevel(int level);  // For simulation

@@ -1,16 +1,5 @@
-/**
- * @file GasDetector.cpp
- * @brief Implementation of Gas Detector
- * @version 5.0
- * @date 03/12/2025
- * 
- * @authors
- * - 220208041: Detectors & Alarm - Gas Detector implementation
- * 
- * @patterns Factory Method (Product)
- */
-
 #include "GasDetector.h"
+#include "DetectionSystem.h"
 #include <sstream>
 
 GasDetector::GasDetector(const std::string& brand, const std::string& model)
@@ -36,11 +25,11 @@ void GasDetector::detect() {
         detected = true;
         std::cout << "[ALERT] " << name << " detected GAS! Level: " << gasLevel 
                   << "% (" << gasType << ")" << std::endl;
+        
+        if (detectionSystem) {
+            // Will trigger detection sequence - handled by DetectionSystem
+        }
     }
-}
-
-void GasDetector::trigger() {
-    detect();
 }
 
 int GasDetector::getGasLevel() const {
