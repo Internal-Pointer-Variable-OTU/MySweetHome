@@ -1,4 +1,3 @@
-
 build/
 build-*/
 cmake-build-*/
@@ -68,3 +67,6 @@ web/sessions/
 web/*.log
 web/debug_log.txt
 
+commits.txt
+server_run.txt
+msh_log.txt
