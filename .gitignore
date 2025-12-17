@@ -59,6 +59,7 @@ desktop.ini
 
 
 *.test
+*.g*
 
 # Web Interface
 web/node_modules/
