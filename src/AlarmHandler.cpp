@@ -18,7 +18,7 @@ AlarmHandler::AlarmHandler(Alarm* alarm) : alarm(alarm) {}
 void AlarmHandler::handleRequest() {
     std::cout << "[SECURITY] Triggering Alarm..." << std::endl;
     if (alarm) {
-        alarm->trigger();
+        alarm->ring();
     }
     
     // Pass to next handler

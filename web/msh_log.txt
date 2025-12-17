@@ -1,8 +1,0 @@
-[Wed Dec 17 16:41:10 2025] ========================================
-[Wed Dec 17 16:41:10 2025] Log file opened: msh_log.txt
-[Wed Dec 17 16:41:10 2025] 
-[Wed Dec 17 16:41:10 2025] ############################################
-[Wed Dec 17 16:41:10 2025] #       MY SWEET HOME SYSTEM START        #
-[Wed Dec 17 16:41:10 2025] ############################################
-[Wed Dec 17 16:41:10 2025] 
-[Wed Dec 17 16:41:10 2025] [INFO] System initialized successfully

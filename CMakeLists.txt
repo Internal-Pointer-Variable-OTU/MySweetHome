@@ -9,7 +9,6 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Source files
 set(SOURCES
-    src/main.cpp
     src/Menu.cpp
     src/Storage.cpp
     src/Device.cpp
@@ -28,12 +27,24 @@ set(SOURCES
     src/DetectionSystem.cpp
     src/NotificationSystem.cpp
     src/HomeController.cpp
+    src/LightHandler.cpp
+    src/PoliceHandler.cpp
+    src/SecurityHandler.cpp
+    src/AlarmHandler.cpp
 )
 
+# Create library
+add_library(msh_lib ${SOURCES})
+
 # Create executable
-add_executable(msh ${SOURCES})
+add_executable(msh src/main.cpp)
+target_link_libraries(msh msh_lib)
 
 # Output directory
 set_target_properties(msh PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# Testing
+enable_testing()
+add_subdirectory(tests)

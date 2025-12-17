@@ -116,6 +116,9 @@ ctest --output-on-failure
 
 # Alternatively, run the test executable directly
 ./tests/unit_tests
+
+# Run Sequence Verification Test (Security & Detection)
+./tests/manual_sequence_test
 ```
 
 ---
