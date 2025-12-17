@@ -157,13 +157,17 @@ void Menu::displayAbout() const {
     printLine('-');
     std::cout << "  Development Team:" << std::endl;
     printLine('-');
-    std::cout << "  [Integrator]  - Team Lead / Integration" << std::endl;
-    std::cout << "  [Developer 1] - Device Module" << std::endl;
-    std::cout << "  [Developer 2] - Factory Module" << std::endl;
-    std::cout << "  [Developer 3] - Mode Manager Module" << std::endl;
-    std::cout << "  [Developer 4] - State Manager Module" << std::endl;
-    std::cout << "  [Developer 5] - Security System Module" << std::endl;
+    std::cout << "  [Integrator]  - Anıl Akpınar - Integration & Build System" << std::endl;
+    std::cout << "  [Developer 1] - Ömer Faruk Çakmak - Device Core & Factories" << std::endl;
+    std::cout << "  [Developer 2] - Mehmet Efe Ergin - Actuators & Prototype" << std::endl;
+    std::cout << "  [Developer 3] - Zeynep Bilge Tuğ - Detectors & Alarm" << std::endl;
+    std::cout << "  [Developer 4] - Hüseyin Saçıkay - Storage & Menu" << std::endl;
+    std::cout << "  [Developer 5] - Yusuf Berk Baytok - Mode System" << std::endl;
+    std::cout << "  [Developer 6] - Yunis Ibrahimov - State History" << std::endl;
+    std::cout << "  [Developer 7] - Burak Yıldırım - Security System" << std::endl;
+    std::cout << "  [Developer 8] - Dünyamalı Goyushlu - Detection System" << std::endl;
     std::cout << std::endl;
+
     
     printLine('-');
     std::cout << "  Design Patterns Used:" << std::endl;
