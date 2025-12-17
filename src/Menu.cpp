@@ -1,8 +1,6 @@
 /**
  * @file Menu.cpp
  * @brief Implementation of the Menu UI
- * @version 5.0
- * @date 03/12/2025
  * 
  * @authors
  * - 220201036: Storage & Menu - Menu UI implementation
@@ -132,6 +130,11 @@ void Menu::displayManual() const {
     std::cout << "     When motion is detected: Alarm -> Lights On -> Call Police" << std::endl;
     std::cout << std::endl;
     
+    std::cout << "  9. DETECTION SYSTEM" << std::endl;
+    std::cout << "     When smoke/gas detected: Alarm -> Blink Lights -> Call Fire Station" << std::endl;
+    std::cout << "     User can acknowledge to interrupt the sequence." << std::endl;
+    std::cout << std::endl;
+    
     printLine('=');
 }
 
@@ -163,6 +166,7 @@ void Menu::displayAbout() const {
     std::cout << "  [Developer 3] - Mode Manager Module" << std::endl;
     std::cout << "  [Developer 4] - State Manager Module" << std::endl;
     std::cout << "  [Developer 5] - Security System Module" << std::endl;
+    std::cout << "  [Developer 6] - Detection System Module" << std::endl;
     std::cout << std::endl;
     
     printLine('-');
@@ -176,9 +180,9 @@ void Menu::displayAbout() const {
     std::cout << "  - Memento (State history)" << std::endl;
     std::cout << "  - Observer (Device failure notifications)" << std::endl;
     std::cout << "  - Strategy (Notification strategies)" << std::endl;
-    std::cout << "  - Chain of Responsibility (Security sequences)" << std::endl;
+    std::cout << "  - Chain of Responsibility (Security/Detection sequences)" << std::endl;
     std::cout << "  - Template Method (Device power on/off)" << std::endl;
-    std::cout << "  - Facade (HomeController, Security system)" << std::endl;
+    std::cout << "  - Facade (HomeController, Security/Detection systems)" << std::endl;
     std::cout << std::endl;
     
     printLine('=');
@@ -300,8 +304,8 @@ int Menu::getNumberInput() const {
 }
 
 void Menu::clearScreen() const {
-    // Send a special marker that the web frontend will interpret as a signal to clear the terminal window.
-    std::cout << "\n<<CLS>>\n";
+    // Cross-platform clear screen
+    std::cout << "\033[2J\033[1;1H";
 }
 
 void Menu::waitForKey() const {

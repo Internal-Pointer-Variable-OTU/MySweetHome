@@ -3,7 +3,7 @@
  * @brief Implementation of the Facade HomeController
  * 
  * @authors
- * - 220201024: System Integration - Facade, Main Loop, Module Integration
+ * - 220201013: System Integration - Facade, Main Loop, Module Integration
  * 
  * @patterns Facade
  */
@@ -22,6 +22,7 @@
 #include "ModeManager.h"
 #include "StateManager.h"
 #include "SecuritySystem.h"
+#include "DetectionSystem.h"
 #include "NotificationSystem.h"
 #include "DeviceFactory.h"
 #include <iostream>
@@ -51,6 +52,7 @@ HomeController::HomeController() : isRunning(false) {
     
     // Initialize security and detection systems
     securitySystem = new SecuritySystem(alarm, &lightPtrs);
+    detectionSystem = new DetectionSystem(alarm, &lightPtrs);
 }
 
 HomeController::~HomeController() {
@@ -71,6 +73,7 @@ HomeController::~HomeController() {
     delete modeManager;
     delete stateManager;
     delete securitySystem;
+    delete detectionSystem;
     delete notificationSystem;
     
     // Note: Alarm and Storage are singletons, not deleted here
@@ -135,6 +138,10 @@ void HomeController::start() {
     // Activate security system
     std::cout << "[INIT] Activating security system..." << std::endl;
     securitySystem->activate();
+    
+    // Activate detection system
+    std::cout << "[INIT] Activating detection system..." << std::endl;
+    detectionSystem->activate();
     
     // Save initial state
     stateManager->saveState(modeManager->getCurrentModeName(), allDevices);
@@ -202,6 +209,7 @@ void HomeController::shutdown() {
     
     // Deactivate systems
     securitySystem->deactivate();
+    detectionSystem->deactivate();
     
     // Power off all non-critical devices
     for (size_t i = 0; i < allDevices.size(); ++i) {
@@ -235,6 +243,8 @@ void HomeController::handleGetStatus() {
     // Security and detection
     std::cout << std::endl;
     securitySystem->displayStatus();
+    std::cout << std::endl;
+    detectionSystem->displayStatus();
     std::cout << std::endl;
     notificationSystem->displayStatus();
     
@@ -723,6 +733,32 @@ void HomeController::simulateMotionDetection() {
         if (cam) {
             cam->detectMotion();
             securitySystem->handleMotionDetection();
+        }
+    }
+}
+
+void HomeController::simulateSmokeDetection() {
+    std::cout << std::endl;
+    std::cout << "=== SIMULATION: Smoke Detection ===" << std::endl;
+    
+    if (!smokeDetectors.empty()) {
+        SmokeDetector* smoke = dynamic_cast<SmokeDetector*>(smokeDetectors[0]);
+        if (smoke) {
+            smoke->setSmokeLevel(80);  // High smoke level
+            detectionSystem->handleSmokeDetection();
+        }
+    }
+}
+
+void HomeController::simulateGasDetection() {
+    std::cout << std::endl;
+    std::cout << "=== SIMULATION: Gas Detection ===" << std::endl;
+    
+    if (!gasDetectors.empty()) {
+        GasDetector* gas = dynamic_cast<GasDetector*>(gasDetectors[0]);
+        if (gas) {
+            gas->setGasLevel(70);  // High gas level
+            detectionSystem->handleGasDetection();
         }
     }
 }
