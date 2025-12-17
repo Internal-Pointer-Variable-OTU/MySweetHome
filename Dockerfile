@@ -35,6 +35,7 @@ WORKDIR /app
 
 # Copy compiled binary from Stage 1
 COPY --from=cpp-builder /app/build/bin/msh /app/build/bin/msh
+RUN chmod +x /app/build/bin/msh
 
 # Copy Web Interface
 COPY web/package.json ./web/
