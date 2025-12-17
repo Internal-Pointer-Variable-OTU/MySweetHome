@@ -1,13 +1,3 @@
-/**
- * @file Menu.cpp
- * @brief Implementation of the Menu UI
- * 
- * @authors
- * - 220201036: Storage & Menu - Menu UI implementation
- * 
- * @patterns Command (implied in structure)
- */
-
 #include "Menu.h"
 #include <iostream>
 #include <iomanip>

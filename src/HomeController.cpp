@@ -1,13 +1,3 @@
-/**
- * @file HomeController.cpp
- * @brief Implementation of the Facade HomeController
- * 
- * @authors
- * - 220201013: System Integration - Facade, Main Loop, Module Integration
- * 
- * @patterns Facade
- */
-
 #include "HomeController.h"
 #include "Device.h"
 #include "Light.h"

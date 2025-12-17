@@ -1,15 +1,3 @@
-/**
- * @file Menu.h
- * @brief User Interface handling for the system
- * @version 5.0
- * @date 03/12/2025
- * 
- * @authors
- * - 220201036: Storage & Menu - Menu UI implementation
- * 
- * @patterns Command (implied in structure)
- */
-
 #ifndef MENU_H
 #define MENU_H
 
