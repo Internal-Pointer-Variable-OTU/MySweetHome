@@ -1,5 +1,9 @@
 #ifndef DETECTOR_H
 #define DETECTOR_H
+	
+
+
+
 
 #include "Device.h"
 #include <string>
