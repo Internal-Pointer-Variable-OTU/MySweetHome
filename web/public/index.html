@@ -157,10 +157,10 @@
                 <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Manual Command</h2>
                 <div class="flex-1 flex flex-col justify-end">
                     <p class="text-[10px] text-gray-400 mb-2">Enter direct codes (e.g., '10' for Shutdown)</p>
-                    <div class="flex gap-2">
+                    <form id="manual-form" class="flex gap-2">
                         <input type="text" id="manual-input" placeholder="Cmd..." class="flex-1 bg-black border border-gray-600 text-white text-sm rounded px-3 py-2 font-mono focus:border-blue-500 focus:outline-none">
-                        <button onclick="sendManualInput()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded text-sm font-medium">Send</button>
-                    </div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded text-sm font-medium">Send</button>
+                    </form>
                 </div>
             </div>
         </div>

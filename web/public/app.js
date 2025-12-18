@@ -108,10 +108,9 @@ function sendCommand(cmd, btnElement) {
 
 function sendManualInput() {
     const val = manualInput.value;
-    if (val) {
-        sendCommand(val);
-        manualInput.value = '';
-    }
+    // Allow sending empty strings (Enter key)
+    sendCommand(val);
+    manualInput.value = '';
 }
 
 // UI Helpers
@@ -134,8 +133,9 @@ function showDemo() {
 }
 
 // Event Listeners
-manualInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendManualInput();
+document.getElementById('manual-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendManualInput();
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {

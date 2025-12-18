@@ -104,13 +104,22 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send-input', (input) => {
+        const sanitizedInput = input.toString().trim();
+
+        // Allow empty input (Enter key)
+        if (sanitizedInput === '') {
+            if (userProcess && userProcess.stdin) {
+                userProcess.stdin.write('\n');
+            }
+            return;
+        }
+
         // SECURITY: Input Validation
         // Allow only:
         // 1. Numbers (any length, for quantity input)
         // 2. Single letters (a-z, A-Z) for menu choices
         // 3. '10' is covered by numbers rule.
         const allowedPattern = /^(\d+|[a-zA-Z])$/;
-        const sanitizedInput = input.toString().trim();
 
         if (!allowedPattern.test(sanitizedInput)) {
             socket.emit('terminal-output', `\n[SECURITY BLOCK] Invalid command: "${sanitizedInput}"\nOnly numbers and single letters are allowed.\n`);
