@@ -108,8 +108,20 @@ function sendCommand(cmd, btnElement) {
 
 function sendManualInput() {
     const val = manualInput.value;
-    // Allow sending empty strings (Enter key)
-    sendCommand(val);
+    
+    if (val === '') {
+        // Visual feedback for Enter key
+        const span = document.createElement('span');
+        span.textContent = '\n> [ENTER Key Sent]\n';
+        span.classList.add('text-gray-500', 'italic');
+        terminal.appendChild(span);
+        terminal.scrollTop = terminal.scrollHeight;
+        
+        sendCommand('');
+    } else {
+        sendCommand(val);
+    }
+    
     manualInput.value = '';
 }
 
